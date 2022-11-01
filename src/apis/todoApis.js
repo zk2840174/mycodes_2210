@@ -54,15 +54,23 @@ export const deleteTodo = async (id) => {
 export const putTodo = async (sampleTodo) => {
     const formData = new FormData()
 
+    console.log("-----------------------------")
+    console.log(sampleTodo)
     for (const prop in sampleTodo) {
 
-        if(prop !== 'newfiles') {
+        console.log(prop)
+
+        if(prop !== 'files') {
             formData.append(prop, sampleTodo[prop])
         }
     }
 
-    for(let i = 0; i < sampleTodo.newfiles.length; i++){
-        formData.append("files", sampleTodo.newfiles[i])
+    console.log(sampleTodo.newFiles)
+
+    if(sampleTodo.newFiles) {
+        for (let i = 0; i < sampleTodo.newFiles.length; i++) {
+            formData.append("files", sampleTodo.newFiles[i])
+        }
     }
 
 
