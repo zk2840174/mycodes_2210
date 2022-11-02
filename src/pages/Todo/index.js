@@ -12,6 +12,7 @@ function Index(props) {
         <>
             <Link to={"list"}>List</Link>
             <Link to={"register"}>Register</Link>
+            <Link to={"../login"}>Login</Link>
             <Routes>
                 <Route path={'list'} element={<TodoListPage></TodoListPage>}></Route>
                 <Route path={'read/:id'} element={<TodoReadPage></TodoReadPage>}></Route>

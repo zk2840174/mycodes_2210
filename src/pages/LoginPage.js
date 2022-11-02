@@ -1,19 +1,11 @@
 import React, {useCallback, useState} from 'react';
 import {Button, TextField} from "@mui/material";
+import useLogin from "../hooks/useLogin";
 
 
 function LoginPage(props) {
 
-    const [login, setLogin] = useState({mid:'', mpw:''})
-
-    const handleChange = useCallback( (e) => {
-        login[e.target.name] = e.target.value
-
-        setLogin({...login})
-    })
-
-    const clickLogin = useCallback(() => {
-    })
+   const {handleChange, clickLogin} = useLogin()
 
     return (
         <div>

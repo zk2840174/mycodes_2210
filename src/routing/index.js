@@ -9,6 +9,7 @@ import {
 import MainPage from "../pages/MainPage";
 import Todo from "../pages/Todo";
 import LoginPage from "../pages/LoginPage";
+import JWT from "../pages/JWT";
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: "/todo/*",
         element: <Todo></Todo>
+    },
+    {
+        path: "/jwt/*",
+        element: <JWT></JWT>
     }
 ]);
 
