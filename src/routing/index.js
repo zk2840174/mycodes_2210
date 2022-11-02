@@ -17,12 +17,12 @@ const router = createBrowserRouter([
         element: <MainPage></MainPage>,
     },
     {
-        path: "/todo/*",
-        element: <Todo></Todo>
-    },
-    {
         path:"/login",
         element: <LoginPage></LoginPage>
+    },
+    {
+        path: "/todo/*",
+        element: <Todo></Todo>
     }
 ]);
 

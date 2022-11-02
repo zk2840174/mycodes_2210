@@ -23,6 +23,7 @@ const queryClient = new QueryClient({
         mutations: {
             useErrorBoundary: true,
         },
+        suspense: true,
     },
 })
 console.log("--------------------------------" , queryClient)
@@ -33,7 +34,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <QueryClientProvider client={queryClient}>
-
         <RouterProvider router={routing} />
         <ReactQueryDevtools  ></ReactQueryDevtools>
     </QueryClientProvider>

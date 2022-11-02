@@ -1,23 +1,35 @@
 import {useParams} from "react-router-dom";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {getTodo} from "../../apis/todoApis";
-import React from "react";
+import axios from "axios";
 
 
-const useTodoRead = () => {
+const getTodo = async (state) => {
+
+    const id = state.queryKey[1]
+
+    const res = await axios.get(`http://localhost/api/sampleTodos/${id}`)
+
+    return res.data
+
+}
+
+
+const useTodoRead = (option) => {
 
     const queryClient = useQueryClient()
 
     const {id} = useParams()
 
-    let {data, isLoading, isFetching, isFetched} = useQuery(['sampleTodo', id], () => getTodo(id),{staleTime:60*1000*10} )
+    const options = {staleTime: 1000}
 
-    if(isFetched) {
-        data = queryClient.getQueryData(['sampleTodo', id])
+    if(option && option.hold){
+        options.staleTime = Infinity
     }
 
+    const {isLoading,isFetching,data} = useQuery(['todo', parseInt(id)], getTodo, options)
 
-    return {data, isLoading, isFetching}
+    return {isLoading,isFetching,data}
 }
+
 
 export default useTodoRead

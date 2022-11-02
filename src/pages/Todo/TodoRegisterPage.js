@@ -1,64 +1,27 @@
 import React, {useState} from 'react';
-import {Button, Divider, TextField} from "@mui/material";
-import {useMutation} from "@tanstack/react-query";
-import {postSend, postTodo} from "../../apis/todoApis";
-import {useNavigate} from "react-router-dom";
+import {Button, FormGroup, TextField} from "@mui/material";
+import useTodoRegister from "../../hooks/todo/useTodoRegister";
+
+
 
 function TodoRegisterPage(props) {
 
-    const navigate = useNavigate()
-
-    const [todo, setTodo] = useState( {
-        title:'',writer:'',dueDate:'', files:[]
-    })
-
-    const mutation = useMutation(postSend, {
-        onSuccess: (result) =>{
-            console.log(result)
-            navigate('/todo/list')
-        }
-    })
-
-    const handleChange = (prop, value) => {
-
-        todo[prop] = value
-
-        setTodo({...todo})
-    }
-
-    const handleFileChange = (e)  => {
-
-        todo.files = e.target.files
-        setTodo({...todo})
-    }
-
-    const handleClick = () => {
-
-        mutation.mutate(todo)
-
-    }
-
+    const {todo, handleChange, fileRef, clickSave} = useTodoRegister()
 
     return (
         <>
-            <div>
-                <TextField  label="Title" variant="standard" value={todo.title} onChange={(e) => handleChange('title', e.target.value)} />
-            </div>
-            <div>
-                <TextField  label="Writer" variant="standard" value={todo.writer} onChange={(e) => handleChange('writer', e.target.value)}/>
-            </div>
-            <div>
-                <TextField  lable="DueDate" type={'date'} variant="standard" value={todo.dueDate} onChange={(e) => handleChange('dueDate', e.target.value)} />
-            </div>
-            <div>
-                <input  type={'file'} multiple={true} onChange={(e) => handleFileChange(e)} />
-            </div>
-
-            <div>
-                <Button  color="primary" onClick={handleClick}>
-                    Register
-                </Button>
-            </div>
+            <h1>Todo Register Page</h1>
+            <FormGroup>
+                <TextField type={'text'} name ="title" value={todo.title} variant={"outlined"} label={'Title'} onChange={(e) => handleChange(e)}></TextField>
+                <TextField type={'text'} name={"writer"} value={todo.writer} variant={"filled"} label={'Writer'}  onChange={(e) => handleChange(e)}></TextField>
+                <TextField type={'date'} name={"dueDate"} value={todo.dueDate} variant={"outlined"} label={'Due Date'}  onChange={(e) => handleChange(e)} readOnly={true}></TextField>
+                <div>
+                    <TextField type="file"  ref={fileRef} inputProps={{multiple: true}} onChange={(e) => handleFileChange(e)} />
+                </div>
+                <div>
+                    <Button variant="contained" onClick={clickSave}>SAVE</Button>
+                </div>
+            </FormGroup>
         </>
     );
 }

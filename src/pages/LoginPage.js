@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
 import {Button, TextField} from "@mui/material";
-import {makeTokens} from "../apis/jwtLogin";
 
 
 function LoginPage(props) {
@@ -14,10 +13,6 @@ function LoginPage(props) {
     })
 
     const clickLogin = useCallback(() => {
-        makeTokens(login).then(tokens => {
-            console.log(tokens)
-            localStorage.setItem("tokens", JSON.stringify(tokens))
-        })
     })
 
     return (

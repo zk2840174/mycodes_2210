@@ -1,31 +1,40 @@
-import {useSearchParams} from "react-router-dom";
-import {useQuery} from "@tanstack/react-query";
-import {getTodoList} from "../../apis/todoApis";
-import React from "react";
+import {useLocation, useSearchParams} from "react-router-dom";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+import axios from "axios";
 
+
+const getTodoList =  async (state) => {
+
+    //console.log("state", state)
+
+    const query = state.queryKey[2];
+
+    const res = await axios.get(`http://localhost/api/sampleTodos/list?page=${query.page}&size=${query.size}`)
+
+    return res.data
+
+}
 
 const useTodoList = () => {
 
-    const [urlSeachParams , setUrlSearchParams] = useSearchParams()
+    const location = useLocation()
 
-    const query = {page: urlSeachParams.get("page") || 1, size:urlSeachParams.get("size")||10}
+    const queryClient = useQueryClient()
 
-    const rq = useQuery(['sampleTodo','list', query.page, query.size], () => getTodoList({...query}))
+    const locationState = location.state
 
+    const [searchParams, setSearchParams]= useSearchParams()
 
-    const handlePaging = (num) => {
+    const queryParams = {page: parseInt(searchParams.get("page")||1), size: parseInt(searchParams.get("size") || 10)}
 
-        if(num === query.page){
-            rq.refetch()
+    const {isLoading, isFetching, data} = useQuery(['todo','list', queryParams], getTodoList, {
+        onSuccess: (data) => {
+
         }
-        const obj = {page:num, size:query.size}
+    } )
 
-        setUrlSearchParams(obj)
 
-    }
-
-    return {rq,handlePaging}
-
+    return {isLoading, isFetching, data, setSearchParams, locationState}
 }
 
 export default useTodoList
